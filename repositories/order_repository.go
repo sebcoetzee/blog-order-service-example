@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"github.com/SebastianCoetzee/blog-order-service-example/application"
 	"github.com/SebastianCoetzee/blog-order-service-example/models"
 	"github.com/go-pg/pg/orm"
 )
@@ -26,8 +27,17 @@ func (r *orderRepository) SetDB(db orm.DB) {
 	r.db = db
 }
 
+func (r *orderRepository) getDB() orm.DB {
+	if r.db != nil {
+		return r.db
+	}
+
+	r.db = application.ResolveDB()
+	return r.db
+}
+
 func (r *orderRepository) FindAllOrdersByUserID(userID int) (models.Orders, error) {
 	orders := models.Orders{}
-	err := r.db.Model(&orders).Where("user_id = ?", userID).Order("placed_at DESC").Select()
+	err := r.getDB().Model(&orders).Where("user_id = ?", userID).Order("placed_at DESC").Select()
 	return orders, err
 }

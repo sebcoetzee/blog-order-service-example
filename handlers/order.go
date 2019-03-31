@@ -15,7 +15,7 @@ func FindOrdersForUser(c *gin.Context) {
 
 // FindOrdersForUser is the provider method that gets the orders for a user from
 // the user's ID.
-func (p *Provider) FindOrdersForUser(c *gin.Context) {
+func (p *Provider) FindOrdersForUser(c Context) {
 	userID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.Status(http.StatusBadRequest)

@@ -6,14 +6,12 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"github.com/SebastianCoetzee/blog-order-service-example/application"
 	"github.com/SebastianCoetzee/blog-order-service-example/clients/mock_restaurant"
 	"github.com/SebastianCoetzee/blog-order-service-example/clients/restaurant"
 	"github.com/SebastianCoetzee/blog-order-service-example/mock_repositories"
 	"github.com/SebastianCoetzee/blog-order-service-example/models"
 	"github.com/SebastianCoetzee/blog-order-service-example/repositories"
 	"github.com/SebastianCoetzee/blog-order-service-example/services"
-	"github.com/go-pg/pg"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -25,7 +23,6 @@ func TestOrderService(t *testing.T) {
 
 var _ = Describe("OrderService", func() {
 	var (
-		tx               *pg.Tx
 		restaurantClient restaurant.Client
 		orderRepo        repositories.OrderRepository
 		orderService     services.OrderService
@@ -37,9 +34,6 @@ var _ = Describe("OrderService", func() {
 	)
 
 	BeforeEach(func() {
-		tx, err = application.ResolveDB().Begin()
-		Expect(err).To(BeNil())
-
 		ctrl = gomock.NewController(GinkgoT())
 	})
 
@@ -137,8 +131,6 @@ var _ = Describe("OrderService", func() {
 	})
 
 	AfterEach(func() {
-		err = tx.Rollback()
-		Expect(err).To(BeNil())
 		ctrl.Finish()
 	})
 })

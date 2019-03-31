@@ -18,14 +18,14 @@ type Client interface {
 	GetRestaurantsByIDs(ids []int) (models.Restaurants, error)
 }
 
-// client is an implementation of a RestaurantService client interface.
-type client struct {
-	baseURL string
-}
-
 // NewClient creates a new Restaurant client.
 func NewClient() *client {
 	return &client{}
+}
+
+// client is an implementation of a RestaurantService client interface.
+type client struct {
+	baseURL string
 }
 
 // SetBaseURL overrides the default base URL for the restaurants service.
